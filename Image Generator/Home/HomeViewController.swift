@@ -22,8 +22,24 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .white
         setupKeyBoardingHiding()
         setupDismissKeyboardGesture()
+        homeView.generatorButton.addTarget(self, action: #selector(getImage), for: .touchUpInside)
     }
-
+    
+    @objc func getImage() {
+        guard let inputView = homeView.textField.text else { return }
+        let text = String(inputView)
+        
+        let api = "https://dummyimage.com/400x400/000/fff&text=\(text)"
+        guard let urlAPI = URL(string: api) else { fatalError("someError") }
+        let session = URLSession(configuration: .default)
+        let task = session.dataTask(with: urlAPI) { (data, response, error) in
+            guard let data = data, error == nil, let image = UIImage(data: data) else { return }
+            DispatchQueue.main.async {
+                self.homeView.generatorImage.image = image
+            }
+        }
+        task.resume()
+    }
 }
 
 // MARK: - Keyboard
@@ -62,7 +78,6 @@ extension HomeViewController {
             let newFrameY = (textBoxY - keyboardTopY / 2) * -1
             view.frame.origin.y = newFrameY
         }
-
     }
     
     @objc func keyboardWillHide(sender: NSNotification) {
