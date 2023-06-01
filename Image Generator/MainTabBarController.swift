@@ -17,12 +17,12 @@ class MainTabBarController: UITabBarController {
     
     private func setupTabBar() {
         viewControllers = [
-            createVC(viewController: HomeViewController(), tittle: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill")),
-            createVC(viewController: FavouritesViewController(), tittle: "Favourites", image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
+            createVC(viewController: HomeViewController(), tittle: "Home", image: UIImage(named: "house")),
+            createVC(viewController: FavouritesViewController(), tittle: "Favourites", image: UIImage(named: "heart"))
         ]
     }
     
-    private func createVC(viewController: UIViewController, tittle: String, image: UIImage?, selectedImage: UIImage?) -> UIViewController {
+    private func createVC(viewController: UIViewController, tittle: String, image: UIImage?) -> UIViewController {
         viewController.tabBarItem.title = tittle
         viewController.tabBarItem.image = image
         return viewController
