@@ -70,10 +70,10 @@
 		1BB95F5C2A283AE200549769 /* Image Generator */ = {
 			isa = PBXGroup;
 			children = (
-				1B102BF72A28900D001F2F9A /* Utiles */,
 				1BB95F712A283CA900549769 /* Application */,
 				1BB95F722A283CE700549769 /* Resources */,
 				1BB95F732A283CFD00549769 /* SupportingFiles */,
+				1B102BF72A28900D001F2F9A /* Utiles */,
 				1BB95F752A28466400549769 /* MainTabBarController.swift */,
 				1BB95F7B2A28472000549769 /* Home */,
 				1BB95F792A2846BA00549769 /* FavouritesViewController.swift */,

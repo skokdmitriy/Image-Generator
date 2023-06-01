@@ -19,6 +19,7 @@ class MainTabBarController: UITabBarController {
         viewControllers = [
             createVC(viewController: HomeViewController(), tittle: "Home", image: UIImage(named: "house")),
             createVC(viewController: FavouritesViewController(), tittle: "Favourites", image: UIImage(named: "heart"))
+            
         ]
     }
     

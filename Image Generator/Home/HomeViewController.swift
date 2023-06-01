@@ -21,7 +21,7 @@ class HomeViewController: UIViewController {
         
         view.backgroundColor = .white
         setupKeyBoardingHiding()
-        setupDismissKeyboardGesture()    
+        setupDismissKeyboardGesture()
     }
 
 }
