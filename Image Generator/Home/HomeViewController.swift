@@ -10,6 +10,7 @@ import UIKit
 class HomeViewController: UIViewController {
     
     lazy var homeView = HomeView()
+    var dataProvider = DataProvider()
     
     override func loadView() {
         super.loadView()
@@ -26,19 +27,18 @@ class HomeViewController: UIViewController {
     }
     
     @objc func getImage() {
-        guard let inputView = homeView.textField.text else { return }
-        let text = String(inputView)
         
-        let api = "https://dummyimage.com/400x400/000/fff&text=\(text)"
-        guard let urlAPI = URL(string: api) else { fatalError("someError") }
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: urlAPI) { (data, response, error) in
-            guard let data = data, error == nil, let image = UIImage(data: data) else { return }
-            DispatchQueue.main.async {
-                self.homeView.generatorImage.image = image
-            }
+        guard let inputView = homeView.textField.text else { return }
+        let text = String(inputView).replacingOccurrences(of: " ", with: "%20")
+        
+        let urlAPI = "https://dummyimage.com/400x400/000/ffffff&text=\(text)"
+        guard let url = URL(string: urlAPI) else { fatalError("someError") }
+        
+        dataProvider.downloadImage(url: url) { image in
+            self.homeView.generatorImage.image = image
         }
-        task.resume()
+        view.endEditing(true)
+        self.homeView.textField.text = ""
     }
 }
 

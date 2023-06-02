@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B102BF92A289019001F2F9A /* UIResponder+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B102BF82A289019001F2F9A /* UIResponder+Utils.swift */; };
+		1B225FEC2A29F2F9000C472E /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B225FEB2A29F2F9000C472E /* DataProvider.swift */; };
 		1BB95F5E2A283AE200549769 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB95F5D2A283AE200549769 /* AppDelegate.swift */; };
 		1BB95F602A283AE200549769 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB95F5F2A283AE200549769 /* SceneDelegate.swift */; };
 		1BB95F672A283AE300549769 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BB95F662A283AE300549769 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		1B102BF82A289019001F2F9A /* UIResponder+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Utils.swift"; sourceTree = "<group>"; };
+		1B225FEB2A29F2F9000C472E /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		1BB95F5A2A283AE200549769 /* Image Generator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Image Generator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BB95F5D2A283AE200549769 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1BB95F5F2A283AE200549769 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				1BB95F752A28466400549769 /* MainTabBarController.swift */,
 				1BB95F7B2A28472000549769 /* Home */,
 				1BB95F792A2846BA00549769 /* FavouritesViewController.swift */,
+				1B225FEB2A29F2F9000C472E /* DataProvider.swift */,
 			);
 			path = "Image Generator";
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 			files = (
 				1BB95F5E2A283AE200549769 /* AppDelegate.swift in Sources */,
 				1B102BF92A289019001F2F9A /* UIResponder+Utils.swift in Sources */,
+				1B225FEC2A29F2F9000C472E /* DataProvider.swift in Sources */,
 				1BB95F602A283AE200549769 /* SceneDelegate.swift in Sources */,
 				1BB95F762A28466400549769 /* MainTabBarController.swift in Sources */,
 				1BB95F7D2A28474700549769 /* HomeView.swift in Sources */,

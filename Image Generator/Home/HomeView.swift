@@ -21,9 +21,9 @@ class HomeView: UIView {
         return label
     }()
     
-    let generatorImage: UIImageView = {
+    var generatorImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "400")
+        image.image = UIImage(named: "Start")
         image.layer.cornerRadius = 10
         image.layer.masksToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +38,7 @@ class HomeView: UIView {
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
-    
+        
     let generatorButton: UIButton = {
         let button = UIButton()
         button.setTitle("Generate", for: .normal)
