@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1B102BF92A289019001F2F9A /* UIResponder+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B102BF82A289019001F2F9A /* UIResponder+Utils.swift */; };
 		1B225FEC2A29F2F9000C472E /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B225FEB2A29F2F9000C472E /* DataProvider.swift */; };
+		1B225FEF2A2B973E000C472E /* FavouritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B225FEE2A2B973E000C472E /* FavouritesCell.swift */; };
+		1B225FF62A2E54E6000C472E /* ImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B225FF52A2E54E6000C472E /* ImageGenerator.swift */; };
 		1BB95F5E2A283AE200549769 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB95F5D2A283AE200549769 /* AppDelegate.swift */; };
 		1BB95F602A283AE200549769 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB95F5F2A283AE200549769 /* SceneDelegate.swift */; };
 		1BB95F672A283AE300549769 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BB95F662A283AE300549769 /* Assets.xcassets */; };
@@ -22,6 +24,8 @@
 /* Begin PBXFileReference section */
 		1B102BF82A289019001F2F9A /* UIResponder+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Utils.swift"; sourceTree = "<group>"; };
 		1B225FEB2A29F2F9000C472E /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		1B225FEE2A2B973E000C472E /* FavouritesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesCell.swift; sourceTree = "<group>"; };
+		1B225FF52A2E54E6000C472E /* ImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGenerator.swift; sourceTree = "<group>"; };
 		1BB95F5A2A283AE200549769 /* Image Generator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Image Generator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BB95F5D2A283AE200549769 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1BB95F5F2A283AE200549769 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +57,23 @@
 			path = Utiles;
 			sourceTree = "<group>";
 		};
+		1B225FED2A2B9716000C472E /* Favourites */ = {
+			isa = PBXGroup;
+			children = (
+				1BB95F792A2846BA00549769 /* FavouritesViewController.swift */,
+				1B225FEE2A2B973E000C472E /* FavouritesCell.swift */,
+			);
+			path = Favourites;
+			sourceTree = "<group>";
+		};
+		1B225FF42A2E54A7000C472E /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				1B225FF52A2E54E6000C472E /* ImageGenerator.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		1BB95F512A283AE200549769 = {
 			isa = PBXGroup;
 			children = (
@@ -72,14 +93,15 @@
 		1BB95F5C2A283AE200549769 /* Image Generator */ = {
 			isa = PBXGroup;
 			children = (
+				1B225FF42A2E54A7000C472E /* Data */,
 				1BB95F712A283CA900549769 /* Application */,
 				1BB95F722A283CE700549769 /* Resources */,
 				1BB95F732A283CFD00549769 /* SupportingFiles */,
 				1B102BF72A28900D001F2F9A /* Utiles */,
 				1BB95F752A28466400549769 /* MainTabBarController.swift */,
-				1BB95F7B2A28472000549769 /* Home */,
-				1BB95F792A2846BA00549769 /* FavouritesViewController.swift */,
 				1B225FEB2A29F2F9000C472E /* DataProvider.swift */,
+				1BB95F7B2A28472000549769 /* Home */,
+				1B225FED2A2B9716000C472E /* Favourites */,
 			);
 			path = "Image Generator";
 			sourceTree = "<group>";
@@ -190,8 +212,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BB95F5E2A283AE200549769 /* AppDelegate.swift in Sources */,
+				1B225FF62A2E54E6000C472E /* ImageGenerator.swift in Sources */,
 				1B102BF92A289019001F2F9A /* UIResponder+Utils.swift in Sources */,
 				1B225FEC2A29F2F9000C472E /* DataProvider.swift in Sources */,
+				1B225FEF2A2B973E000C472E /* FavouritesCell.swift in Sources */,
 				1BB95F602A283AE200549769 /* SceneDelegate.swift in Sources */,
 				1BB95F762A28466400549769 /* MainTabBarController.swift in Sources */,
 				1BB95F7D2A28474700549769 /* HomeView.swift in Sources */,

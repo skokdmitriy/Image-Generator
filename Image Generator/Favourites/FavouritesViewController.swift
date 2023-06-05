@@ -11,17 +11,26 @@ class FavouritesViewController: UIViewController {
     
     let tableview: UITableView = {
         let table = UITableView()
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(FavouritesCell.self, forCellReuseIdentifier: "FavouritesCell")
         return table
     }()
+        
+    var favouritesImages: [UIImage] {
+        get {
+            return (self.tabBarController?.viewControllers![0] as! HomeViewController).dataImage
+        }
+    }
     
-    let data = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+//    MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableview.delegate = self
         tableview.dataSource = self
+        tableview.rowHeight = 200
         view.addSubview(tableview)
+        
+        print(favouritesImages.count)
     }
     
     override func viewDidLayoutSubviews() {
@@ -34,14 +43,13 @@ class FavouritesViewController: UIViewController {
     
 extension FavouritesViewController: UITableViewDataSource, UITableViewDelegate {
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return favouritesImages.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = data[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FavouritesCell") as! FavouritesCell
+        cell.favoriteImageView.image = favouritesImages[indexPath.row]
         return cell
     }
 }

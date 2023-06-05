@@ -21,7 +21,7 @@ class HomeView: UIView {
         return label
     }()
     
-    var generatorImage: UIImageView = {
+    var generatorImageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "Start")
         image.layer.cornerRadius = 10
@@ -42,8 +42,9 @@ class HomeView: UIView {
     let generatorButton: UIButton = {
         let button = UIButton()
         button.setTitle("Generate", for: .normal)
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = .gray
         button.layer.cornerRadius = 5
+        button.isEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -51,11 +52,11 @@ class HomeView: UIView {
     let favouriteButton: UIButton = {
         let button = UIButton()
         button.setTitle("Like", for: .normal)
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = .gray
         button.layer.cornerRadius = 5
+        button.isEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
-        
     }()
     
     private lazy var buttonStackView: UIStackView = {
@@ -82,7 +83,7 @@ class HomeView: UIView {
     
     private func setupLayout() {
         addSubview(titleLabel)
-        addSubview(generatorImage)
+        addSubview(generatorImageView)
         addSubview(textField)
         addSubview(buttonStackView)
         
@@ -90,13 +91,13 @@ class HomeView: UIView {
             titleLabel.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
             
-            generatorImage.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
-            generatorImage.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            generatorImage.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            generatorImage.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            generatorImageView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+            generatorImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            generatorImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            generatorImageView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
             textField.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
-            textField.topAnchor.constraint(equalTo: generatorImage.bottomAnchor, constant: 20),
+            textField.topAnchor.constraint(equalTo: generatorImageView.bottomAnchor, constant: 20),
             textField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
             textField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
             
