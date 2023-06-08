@@ -7,26 +7,30 @@
 
 import UIKit
 
-class FavouritesCell: UITableViewCell {
-    
-    var favoriteImageView: UIImageView = {
+final class FavouritesCell: UITableViewCell {
+    private lazy var favoriteImageView: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 10
         image.layer.masksToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureConstrains()
+        
+        configureConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureConstrains() {
+    func configure(with image: UIImage) {
+        favoriteImageView.image = image
+    }
+    
+    private func configureConstraints() {
         addSubview(favoriteImageView)
         
         NSLayoutConstraint.activate([

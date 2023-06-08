@@ -6,19 +6,18 @@
 //
 
 import UIKit
+import CoreData
 
-class HomeViewController: UIViewController {
-    
-    lazy var homeView = HomeView()
-    lazy var dataProvider = DataProvider()
-    
-    var loadImage = UIImage()
-    var dataImage = [UIImage]()
-    
-//    MARK: - Life Cycle
+final class HomeViewController: UIViewController {
+    private lazy var homeView = HomeView()
+
+    private var loadImage = UIImage()
+
+    // MARK: - Life Cycle
     
     override func loadView() {
         super.loadView()
+        
         view = homeView
     }
     
@@ -28,21 +27,48 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .white
         setupKeyBoardingHiding()
         setupDismissKeyboardGesture()
-        homeView.generatorButton.addTarget(self, action: #selector(generatorButtonTapped), for: .touchUpInside)
-        homeView.favouriteButton.addTarget(self, action: #selector(favouriteButtonTapped), for: .touchUpInside)
-        homeView.textField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+        addTarget()
     }
     
-    @objc func generatorButtonTapped() {
-        
-        guard let inputView = homeView.textField.text else { return }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+
+    private func addTarget() {
+        homeView.generatorButton.addTarget(
+            self,
+            action: #selector(generatorButtonTapped),
+            for: .touchUpInside
+        )
+        homeView.favouriteButton.addTarget(
+            self,
+            action: #selector(favouriteButtonTapped),
+            for: .touchUpInside
+        )
+        homeView.textField.addTarget(
+            self,
+            action: #selector(textFieldChanged),
+            for: .editingChanged
+        )
+    }
+    
+    @objc private func generatorButtonTapped() {
+        guard let inputView = homeView.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !inputView.isEmpty else {
+            return
+        }
         let text = String(inputView).replacingOccurrences(of: " ", with: "%20")
-        
         let urlAPI = "https://dummyimage.com/400x400/000/ffffff&text=\(text)"
-        guard let url = URL(string: urlAPI) else { fatalError("someError") }
         
-        dataProvider.downloadImage(url: url) { image in
-            guard let image = image else { return }
+        guard let url = URL(string: urlAPI) else {
+            fatalError("someError")
+        }
+        DataProvider.shared.downloadImage(url: url) { [weak self] image in
+            guard let self else {
+                return
+            }
             self.loadImage = image
             self.homeView.generatorImageView.image = self.loadImage
             self.homeView.favouriteButton.isEnabled = true
@@ -52,12 +78,10 @@ class HomeViewController: UIViewController {
         self.homeView.textField.text = nil
     }
     
-    @objc func favouriteButtonTapped() {
-        if dataImage.count == 10 {
-            dataImage.removeFirst()
-        } else {
-            dataImage.append(loadImage)
-            print(dataImage.count)
+    @objc private func favouriteButtonTapped() {
+        if let imageData = loadImage.pngData() {
+            DataBaseHelper.shared.saveImage(data: imageData)
+            
         }
     }
     
@@ -87,8 +111,17 @@ extension HomeViewController {
     }
     
     private func setupKeyBoardingHiding() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(keyBoardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
     @objc func keyBoardWillShow(sender: NSNotification) {

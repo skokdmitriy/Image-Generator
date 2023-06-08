@@ -6,50 +6,116 @@
 //
 
 import UIKit
+import CoreData
 
-class FavouritesViewController: UIViewController {
-    
-    let tableview: UITableView = {
-        let table = UITableView()
-        table.register(FavouritesCell.self, forCellReuseIdentifier: "FavouritesCell")
-        return table
+final class FavouritesViewController: UIViewController {
+    var favouritesImages = [UIImage]()
+
+    // MARK: - Subviews
+
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(FavouritesCell.self, forCellReuseIdentifier: "FavouritesCell")
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
     }()
-        
-    var favouritesImages: [UIImage] {
-        get {
-            return (self.tabBarController?.viewControllers![0] as! HomeViewController).dataImage
-        }
-    }
-    
-//    MARK: - Life Cycle
+
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableview.delegate = self
-        tableview.dataSource = self
-        tableview.rowHeight = 200
-        view.addSubview(tableview)
-        
-        print(favouritesImages.count)
+
+        setupNavigationBar()
+        setupLayout()
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableview.frame = view.bounds
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        fetchImage()
+    }
+
+    // MARK: Private
+
+    @objc private func deleteAllTapped() {
+        DataBaseHelper.shared.deleteAllImage()
+        fetchImage()
+    }
+
+    private func fetchImage() {
+        let dataImages = DataBaseHelper.shared.fetchImage()
+
+        for i in dataImages {
+            let image = UIImage(data: i.img!)
+            favouritesImages.append(image!)
+        }
+    }
+
+    private func setupNavigationBar () {
+        navigationItem.title = "Favourites images"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: "icon.Trash.circle.fill"),
+            style: .plain,
+            target: self,
+            action: #selector(deleteAllTapped)
+        )
+    }
+
+    private func setupLayout() {
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }
 
-// MARK: - Table view
-    
-extension FavouritesViewController: UITableViewDataSource, UITableViewDelegate {
-    
+// MARK: - UITableViewDataSource
+
+extension FavouritesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favouritesImages.count
+        favouritesImages.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FavouritesCell") as! FavouritesCell
-        cell.favoriteImageView.image = favouritesImages[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FavouritesCell") as? FavouritesCell else {
+            return UITableViewCell()
+        }
+        let image = favouritesImages[indexPath.row]
+        cell.configure(with: image)
         return cell
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension FavouritesViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        200
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            favouritesImages.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+//            DataBaseHelper.shared.deleteImage(indexPath: indexPath)
+        }
+    }
+}
+
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension FavouritesViewController: NSFetchedResultsControllerDelegate {
+
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        tableView.reloadData()
     }
 }

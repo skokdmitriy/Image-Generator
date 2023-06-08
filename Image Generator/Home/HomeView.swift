@@ -7,14 +7,12 @@
 
 import UIKit
 
-class HomeView: UIView {
-    
-    //    MARK: - Subviews
+final class HomeView: UIView {
+    // MARK: - Subviews
     
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Image Generator"
-        label.numberOfLines = 0
         label.textAlignment = .center
         label.font = .boldSystemFont(ofSize: 30)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -61,12 +59,12 @@ class HomeView: UIView {
     
     private lazy var buttonStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = 20
         stackView.addArrangedSubview(generatorButton)
         stackView.addArrangedSubview(favouriteButton)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -74,6 +72,7 @@ class HomeView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         setupLayout()
     }
     

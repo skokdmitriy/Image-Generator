@@ -7,26 +7,30 @@
 
 import UIKit
 
-class MainTabBarController: UITabBarController {
-
+final class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTabBar()
 
+        setupTabBar()
     }
     
     private func setupTabBar() {
-        viewControllers = [
-            createVC(viewController: HomeViewController(), tittle: "Home", image: UIImage(named: "house")),
-            createVC(viewController: FavouritesViewController(), tittle: "Favourites", image: UIImage(named: "heart"))
-            
-        ]
+        let homeViewController = createVC(
+            viewController: HomeViewController(),
+            tittle: "Home",
+            image: UIImage(named: "iconHouse")
+        )
+        let favouritesViewController = createVC(
+            viewController: FavouritesViewController(),
+            tittle: "Favourites",
+            image: UIImage(named: "iconHeart")
+        )
+        viewControllers = [homeViewController, favouritesViewController]
     }
     
-    private func createVC(viewController: UIViewController, tittle: String, image: UIImage?) -> UIViewController {
+    private func createVC(viewController: UIViewController, tittle: String, image: UIImage?) -> UINavigationController {
         viewController.tabBarItem.title = tittle
         viewController.tabBarItem.image = image
-        return viewController
+        return UINavigationController(rootViewController: viewController)
     }
-
 }
