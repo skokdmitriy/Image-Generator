@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreData
 
 final class FavouritesViewController: UIViewController {
     var favouritesImages = [UIImage]()
@@ -34,14 +33,17 @@ final class FavouritesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        favouritesImages.removeAll()
         fetchImage()
+        tableView.reloadData()
     }
 
     // MARK: Private
 
     @objc private func deleteAllTapped() {
         DataBaseHelper.shared.deleteAllImage()
-        fetchImage()
+        favouritesImages.removeAll()
+        tableView.reloadData()
     }
 
     private func fetchImage() {
@@ -102,20 +104,7 @@ extension FavouritesViewController: UITableViewDelegate {
         if editingStyle == .delete {
             favouritesImages.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-//            DataBaseHelper.shared.deleteImage(indexPath: indexPath)
+            DataBaseHelper.shared.deleteImage(indexPath: indexPath)
         }
-    }
-}
-
-// MARK: - NSFetchedResultsControllerDelegate
-
-extension FavouritesViewController: NSFetchedResultsControllerDelegate {
-
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                    didChange anObject: Any,
-                    at indexPath: IndexPath?,
-                    for type: NSFetchedResultsChangeType,
-                    newIndexPath: IndexPath?) {
-        tableView.reloadData()
     }
 }

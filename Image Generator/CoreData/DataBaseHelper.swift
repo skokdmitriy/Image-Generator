@@ -10,30 +10,41 @@ import CoreData
 
 final class DataBaseHelper {
     static let shared = DataBaseHelper()
+
+    private init() {}
+
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let fetchedResultsController = NSFetchedResultsController<Image>()
-
-    var dataImage = [Image]()
 
     func saveImage(data: Data) {
         let imageInstance = Image(context: context)
         imageInstance.img = data
+        var fetchingImage = [Image]()
+        let fetchRequest: NSFetchRequest<Image> = Image.fetchRequest()
 
         do {
+            fetchingImage = try context.fetch(fetchRequest)
+            if fetchingImage.count == 6 {
+                let image = fetchingImage.remove(at: 0)
+                context.delete(image)
+                try context.save()
+            }
             try context.save()
-            print("Image saved")
         } catch {
             print(error.localizedDescription)
         }
     }
 
     func deleteImage(indexPath: IndexPath) {
-        let image = fetchedResultsController.object(at: indexPath)
-        context.delete(image)
+        var fetchingImage = [Image]()
+        let fetchRequest: NSFetchRequest<Image> = Image.fetchRequest()
 
         do {
+            fetchingImage = try context.fetch(fetchRequest)
+            let image = fetchingImage.remove(at: indexPath.row)
+            context.delete(image)
             try context.save()
-            print("Image remove first")
+            print("Image remove indexPath")
         } catch {
             print(error.localizedDescription)
         }
@@ -46,6 +57,7 @@ final class DataBaseHelper {
                 context.delete(object)
             }
         }
+
         do {
             try context.save()
             print("Image remove")
@@ -55,14 +67,14 @@ final class DataBaseHelper {
     }
 
     func fetchImage() -> [Image] {
-        //        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Image")
+        var fetchingImage = [Image]()
         let fetchRequest: NSFetchRequest<Image> = Image.fetchRequest()
-
+        
         do {
-            dataImage = try context.fetch(fetchRequest)
+            fetchingImage = try context.fetch(fetchRequest)
         } catch {
             print("Error while fetching the image")
         }
-        return dataImage
+        return fetchingImage
     }
 }

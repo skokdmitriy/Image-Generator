@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreData
 
 final class HomeViewController: UIViewController {
     private lazy var homeView = HomeView()
@@ -62,17 +61,22 @@ final class HomeViewController: UIViewController {
         let text = String(inputView).replacingOccurrences(of: " ", with: "%20")
         let urlAPI = "https://dummyimage.com/400x400/000/ffffff&text=\(text)"
         
-        guard let url = URL(string: urlAPI) else {
-            fatalError("someError")
-        }
-        DataProvider.shared.downloadImage(url: url) { [weak self] image in
+        DataProvider.shared.downloadImage(url: urlAPI) { [weak self] result in
             guard let self else {
                 return
             }
-            self.loadImage = image
-            self.homeView.generatorImageView.image = self.loadImage
-            self.homeView.favouriteButton.isEnabled = true
-            self.homeView.favouriteButton.backgroundColor = .systemBlue
+            switch result {
+            case .success(let image):
+                self.loadImage = image
+                self.homeView.generatorImageView.image = self.loadImage
+                self.homeView.favouriteButton.isEnabled = true
+                self.homeView.favouriteButton.backgroundColor = .systemBlue
+            case .failure(_):
+                let alert = errorAlert(title: "Invalid characters",
+                                       message: "Remove invalid characters from the request"
+                )
+                self.present(alert, animated: true)
+            }
         }
         view.endEditing(true)
         self.homeView.textField.text = nil
@@ -92,6 +96,13 @@ final class HomeViewController: UIViewController {
         } else {
             homeView.generatorButton.isHidden = false
         }
+    }
+
+    private func errorAlert(title: String, message: String?) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let actionOK = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(actionOK)
+        return alert
     }
 }
 

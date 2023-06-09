@@ -7,6 +7,11 @@
 
 import UIKit.UIImage
 
+enum NetWorkError: Error {
+    case badURL
+    case requestError(Error)
+}
+
 final class DataProvider {
     static let shared = DataProvider()
 
@@ -14,9 +19,14 @@ final class DataProvider {
 
     var imageCache = NSCache<NSString, UIImage>()
     
-    func downloadImage(url: URL, completion: @escaping (UIImage) -> Void) {
+    func downloadImage(url: String, completionHandler: @escaping (Result<UIImage, NetWorkError>) -> Void) {
+        guard let url = URL(string: url) else {
+            completionHandler(.failure(.badURL))
+            return
+        }
+
         if let cachedImage = imageCache.object(forKey: url.absoluteString as NSString) {
-            completion(cachedImage)
+            completionHandler(.success(cachedImage))
         } else {
             let request = URLRequest(
                 url: url,
@@ -24,16 +34,19 @@ final class DataProvider {
                 timeoutInterval: 1
             )
             let dataTask = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
+                if let error {
+                    completionHandler(.failure(.requestError(error)))
+                }
+
                 guard let self,
                       let data,
-                      let image = UIImage(data: data),
-                      error == nil else {
+                      let image = UIImage(data: data) else {
                     return
                 }
                 self.imageCache.setObject(image, forKey: url.absoluteString as NSString)
 
                 DispatchQueue.main.async {
-                    completion(image)
+                    completionHandler(.success(image))
                 }
             }
             dataTask.resume()
