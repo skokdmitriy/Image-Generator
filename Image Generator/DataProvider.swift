@@ -18,13 +18,12 @@ final class DataProvider {
     private init() {}
 
     var imageCache = NSCache<NSString, UIImage>()
-    
+
     func downloadImage(url: String, completionHandler: @escaping (Result<UIImage, NetWorkError>) -> Void) {
         guard let url = URL(string: url) else {
             completionHandler(.failure(.badURL))
             return
         }
-
         if let cachedImage = imageCache.object(forKey: url.absoluteString as NSString) {
             completionHandler(.success(cachedImage))
         } else {

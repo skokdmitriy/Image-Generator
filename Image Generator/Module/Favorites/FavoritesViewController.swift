@@ -1,5 +1,5 @@
 //
-//  FavouritesViewController.swift
+//  FavoritesViewController.swift
 //  Image Generator
 //
 //  Created by Дмитрий Скок on 01.06.2023.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class FavouritesViewController: UIViewController {
-    var favouritesImages = [UIImage]()
+final class FavoritesViewController: UIViewController {
+    private var favoritesImages = [UIImage]()
 
     // MARK: - Subviews
 
@@ -16,13 +16,13 @@ final class FavouritesViewController: UIViewController {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(FavouritesCell.self, forCellReuseIdentifier: "FavouritesCell")
+        tableView.register(FavoritesTableViewCell.self, forCellReuseIdentifier: Constants.favoriteCellName)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
 
     // MARK: - Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,37 +33,34 @@ final class FavouritesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        favouritesImages.removeAll()
         fetchImage()
         tableView.reloadData()
     }
 
-    // MARK: Private
+    // MARK: - Private
 
     @objc private func deleteAllTapped() {
         DataBaseHelper.shared.deleteAllImage()
-        favouritesImages.removeAll()
+        favoritesImages.removeAll()
         tableView.reloadData()
     }
 
     private func fetchImage() {
-        let dataImages = DataBaseHelper.shared.fetchImage()
-
-        for i in dataImages {
-            let image = UIImage(data: i.img!)
-            favouritesImages.append(image!)
-        }
+        favoritesImages.removeAll()
+        favoritesImages = DataBaseHelper.shared.fetchImage()
     }
 
     private func setupNavigationBar () {
-        navigationItem.title = "Favourites images"
+        title = Constants.favoriteTitle
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(named: "icon.Trash.circle.fill"),
+            image: UIImage(named: Constants.navigationRightButtonItemIcon),
             style: .plain,
             target: self,
             action: #selector(deleteAllTapped)
         )
     }
+
+    //    MARK: - Layout
 
     private func setupLayout() {
         view.addSubview(tableView)
@@ -78,16 +75,16 @@ final class FavouritesViewController: UIViewController {
 
 // MARK: - UITableViewDataSource
 
-extension FavouritesViewController: UITableViewDataSource {
+extension FavoritesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        favouritesImages.count
+        favoritesImages.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FavouritesCell") as? FavouritesCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.favoriteCellName) as? FavoritesTableViewCell else {
             return UITableViewCell()
         }
-        let image = favouritesImages[indexPath.row]
+        let image = favoritesImages[indexPath.row]
         cell.configure(with: image)
         return cell
     }
@@ -95,14 +92,14 @@ extension FavouritesViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension FavouritesViewController: UITableViewDelegate {
+extension FavoritesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         200
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            favouritesImages.remove(at: indexPath.row)
+            favoritesImages.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             DataBaseHelper.shared.deleteImage(indexPath: indexPath)
         }
