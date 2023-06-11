@@ -12,7 +12,7 @@ final class HomeViewController: UIViewController {
 
     private var loadImage = UIImage()
 
-    // MARK: - Life Cycle
+    // MARK: - Lifecycle
 
     override func loadView() {
         super.loadView()
@@ -24,9 +24,9 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .white
-        setupKeyBoardingHiding()
-        setupDismissKeyboardGesture()
         addTarget()
+        setupDismissKeyboardGesture()
+        registerForKeyboardNotification()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -34,6 +34,8 @@ final class HomeViewController: UIViewController {
 
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
+
+    // MARK: - Private
 
     private func errorAlert(title: String, message: String?) -> UIAlertController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -62,12 +64,21 @@ final class HomeViewController: UIViewController {
                 self.homeView.generatorImageView.image = self.loadImage
                 self.homeView.favoriteButton.isEnabled = true
                 self.homeView.favoriteButton.backgroundColor = .systemBlue
-            case .failure(_):
-                let alert = errorAlert(
-                    title: Constants.errorAlertTitle,
-                    message: Constants.errorAlertMessage
-                )
-                self.present(alert, animated: true)
+            case .failure(let error):
+                switch error {
+                case .badURL:
+                    let alertUrl = errorAlert(
+                        title: Constants.errorURLAlertTitle,
+                        message: Constants.errorURLAlertMessage
+                    )
+                    self.present(alertUrl, animated: true)
+                case .requestError:
+                    let alertRequest = errorAlert(
+                        title: Constants.errorRequestAlertTitle,
+                        message: Constants.errorRequestAlertMessage
+                    )
+                    self.present(alertRequest, animated: true)
+                }
             }
         }
         view.endEditing(true)
@@ -120,40 +131,21 @@ extension HomeViewController {
         }
     }
 
-    private func setupKeyBoardingHiding() {
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(keyBoardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
+    func registerForKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHideShow), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    @objc func keyBoardWillShow(sender: NSNotification) {
-        guard let userInfo = sender.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as?
-                NSValue,
-              let currentTextField = UIResponder.currentFirst () as? UITextField else {
-            return
-        }
-
-        let keyboardTopY = keyboardFrame.cgRectValue.origin.y
-        let convertedTextFieldFrame = view.convert(currentTextField.frame, from: currentTextField.superview)
-        let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
-        
-        if textFieldBottomY > keyboardTopY {
-            let textBoxY = convertedTextFieldFrame.origin.y
-            let newFrameY = (textBoxY - keyboardTopY / 2) * -1
-            view.frame.origin.y = newFrameY
+    @objc func keyboardWillShow(_ notification: Notification) {
+        let userInfo = notification.userInfo
+        if let kbFrameSize = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue  {
+            let edgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbFrameSize.height, right: 0)
+            homeView.scrollView.contentInset = edgeInsets
+            homeView.scrollView.scrollIndicatorInsets = edgeInsets
         }
     }
 
-    @objc func keyboardWillHide(sender: NSNotification) {
-        view.frame.origin.y = 0
+    @objc func keyboardHideShow() {
+        homeView.scrollView.contentOffset = CGPoint.zero
     }
 }

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B102BF92A289019001F2F9A /* UIResponder+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B102BF82A289019001F2F9A /* UIResponder+Utils.swift */; };
 		1B225FEC2A29F2F9000C472E /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B225FEB2A29F2F9000C472E /* DataProvider.swift */; };
 		1B225FEF2A2B973E000C472E /* FavoritesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B225FEE2A2B973E000C472E /* FavoritesTableViewCell.swift */; };
 		1B880ACF2A31BCF400C6EB51 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1B880ACD2A31BCF400C6EB51 /* DataModel.xcdatamodeld */; };
@@ -25,7 +24,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1B102BF82A289019001F2F9A /* UIResponder+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Utils.swift"; sourceTree = "<group>"; };
 		1B225FEB2A29F2F9000C472E /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		1B225FEE2A2B973E000C472E /* FavoritesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewCell.swift; sourceTree = "<group>"; };
 		1B880ACE2A31BCF400C6EB51 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -55,14 +53,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1B102BF72A28900D001F2F9A /* Utiles */ = {
-			isa = PBXGroup;
-			children = (
-				1B102BF82A289019001F2F9A /* UIResponder+Utils.swift */,
-			);
-			path = Utiles;
-			sourceTree = "<group>";
-		};
 		1B225FED2A2B9716000C472E /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
@@ -131,7 +121,6 @@
 				1BB95F712A283CA900549769 /* Application */,
 				1BB95F722A283CE700549769 /* Resources */,
 				1BB95F732A283CFD00549769 /* SupportingFiles */,
-				1B102BF72A28900D001F2F9A /* Utiles */,
 				1BB83B8A2A347CCE0047E828 /* Core */,
 				1B225FEB2A29F2F9000C472E /* DataProvider.swift */,
 				1BB83B8C2A34E4C60047E828 /* Module */,
@@ -246,7 +235,6 @@
 			files = (
 				1BB95F5E2A283AE200549769 /* AppDelegate.swift in Sources */,
 				1B880ACF2A31BCF400C6EB51 /* DataModel.xcdatamodeld in Sources */,
-				1B102BF92A289019001F2F9A /* UIResponder+Utils.swift in Sources */,
 				1B880AFC2A31CEC200C6EB51 /* Image+CoreDataProperties.swift in Sources */,
 				1B225FEC2A29F2F9000C472E /* DataProvider.swift in Sources */,
 				1B225FEF2A2B973E000C472E /* FavoritesTableViewCell.swift in Sources */,

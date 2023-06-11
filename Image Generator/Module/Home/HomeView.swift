@@ -10,6 +10,12 @@ import UIKit
 final class HomeView: UIView {
     // MARK: - Subviews
 
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = Constants.tittleLabelName
@@ -83,29 +89,36 @@ final class HomeView: UIView {
     //    MARK: - Layout
 
     private func setupLayout() {
-        addSubview(titleLabel)
-        addSubview(generatorImageView)
-        addSubview(textField)
-        addSubview(buttonStackView)
+        addSubview(scrollView)
+        scrollView.addSubview(titleLabel)
+        scrollView.addSubview(generatorImageView)
+        scrollView.addSubview(textField)
+        scrollView.addSubview(buttonStackView)
 
         NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
+            scrollView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            
+            titleLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
 
-            generatorImageView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+            generatorImageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             generatorImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            generatorImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            generatorImageView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            generatorImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 10),
+            generatorImageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -10),
 
-            textField.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+            textField.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             textField.topAnchor.constraint(equalTo: generatorImageView.bottomAnchor, constant: 20),
-            textField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            textField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            textField.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            textField.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
 
-            buttonStackView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+            buttonStackView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             buttonStackView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 20),
-            buttonStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            buttonStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            buttonStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            buttonStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
+            buttonStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 10)
         ])
     }
 }
