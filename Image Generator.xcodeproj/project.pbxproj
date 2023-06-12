@@ -76,6 +76,7 @@
 			children = (
 				1B880AFE2A31D3FC00C6EB51 /* Storage */,
 				1BB95F752A28466400549769 /* MainTabBarController.swift */,
+				1B225FEB2A29F2F9000C472E /* DataProvider.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -122,7 +123,6 @@
 				1BB95F722A283CE700549769 /* Resources */,
 				1BB95F732A283CFD00549769 /* SupportingFiles */,
 				1BB83B8A2A347CCE0047E828 /* Core */,
-				1B225FEB2A29F2F9000C472E /* DataProvider.swift */,
 				1BB83B8C2A34E4C60047E828 /* Module */,
 			);
 			path = "Image Generator";

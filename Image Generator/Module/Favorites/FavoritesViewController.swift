@@ -8,7 +8,7 @@
 import UIKit
 
 final class FavoritesViewController: UIViewController {
-    private var favoritesImages = [UIImage]()
+    private var favoritesImages: [UIImage] = []
 
     // MARK: - Subviews
 

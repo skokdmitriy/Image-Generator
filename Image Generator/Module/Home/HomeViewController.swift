@@ -65,24 +65,28 @@ final class HomeViewController: UIViewController {
                 self.homeView.favoriteButton.isEnabled = true
                 self.homeView.favoriteButton.backgroundColor = .systemBlue
             case .failure(let error):
-                switch error {
-                case .badURL:
-                    let alertUrl = errorAlert(
-                        title: Constants.errorURLAlertTitle,
-                        message: Constants.errorURLAlertMessage
-                    )
-                    self.present(alertUrl, animated: true)
-                case .requestError:
-                    let alertRequest = errorAlert(
-                        title: Constants.errorRequestAlertTitle,
-                        message: Constants.errorRequestAlertMessage
-                    )
-                    self.present(alertRequest, animated: true)
-                }
+                presentNetworkError(with: error)
             }
         }
         view.endEditing(true)
         homeView.textField.text = nil
+    }
+
+    private func presentNetworkError(with error: NetWorkError) {
+        switch error {
+        case .badURL:
+            let alertUrl = errorAlert(
+                title: Constants.errorURLAlertTitle,
+                message: Constants.errorURLAlertMessage
+            )
+            self.present(alertUrl, animated: true)
+        case .requestError:
+            let alertRequest = errorAlert(
+                title: Constants.errorRequestAlertTitle,
+                message: Constants.errorRequestAlertMessage
+            )
+            self.present(alertRequest, animated: true)
+        }
     }
 
     @objc private func favoriteButtonTapped() {

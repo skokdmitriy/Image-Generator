@@ -71,12 +71,16 @@ final class DataBaseHelper {
     }
 
     func fetchImage() -> [UIImage] {
-        var dataImage = [Image]()
-        var fetchingImage = [UIImage]()
+        var fetchingImage: [UIImage] = []
 
         do {
-            dataImage = try persistentContainer.viewContext.fetch(fetchRequest)
-            fetchingImage = dataImage.compactMap { UIImage(data: $0.img!) }
+            let dataImage = try persistentContainer.viewContext.fetch(fetchRequest)
+            fetchingImage = dataImage.compactMap { dataImage in
+                guard let data = dataImage.img else {
+                    return nil
+                }
+                return UIImage(data: data)
+            }
         } catch {
             print(error.localizedDescription)
         }
